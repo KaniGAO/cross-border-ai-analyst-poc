@@ -2,7 +2,7 @@
 
 > 跨境电商经营分析AI员工原型验证 – 基于 Dify 工作流 + 飞书推送的智能体 PoC
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: Apache-2.0]([https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT](https://opensource.org/license/apache-2.0))
 
 
 ## 🎯 核心亮点
@@ -141,4 +141,4 @@ cross-border-ai-analyst-poc/
 
 ## 📄 许可证
 
-MIT © [KaniGAO]
+Apache-2.0 © [KaniGAO]
