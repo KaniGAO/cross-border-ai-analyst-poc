@@ -574,7 +574,7 @@ workflow:
           max_write_timeout: 0
         title: 推送到飞书
         type: http-request
-        url: https://open.larksuite.com/open-apis/bot/v2/hook/a35c556b-569d-4390-aac9-07433a54808d
+        url: https://open.larksuite.com/open-apis/bot/v2/hook/你的飞书Webhook地址
         variables: []
       height: 169
       id: '1778577160301'
