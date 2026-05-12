@@ -1,0 +1,596 @@
+app:
+  description: 每日经营分析AI员工原型
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: workflow
+  name: Cross-Border AI Analyst PoC
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/tongyi:0.1.36@73e3e28eca163b96da65ef9eab8633f9e7257213ff0d2f2bed93b28b552d2cda
+    version: null
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 20
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: trigger-schedule
+        targetType: code
+      id: 1778575074405-source-1778575348042-target
+      source: '1778575074405'
+      sourceHandle: source
+      target: '1778575348042'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: http-request
+      id: 1778575348042-source-1778575388691-target
+      selected: false
+      source: '1778575348042'
+      sourceHandle: source
+      target: '1778575388691'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: http-request
+        targetType: code
+      id: 1778575388691-source-1778575204284-target
+      source: '1778575388691'
+      sourceHandle: source
+      target: '1778575204284'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: template-transform
+      id: 1778575204284-source-1778576663591-target
+      selected: false
+      source: '1778575204284'
+      sourceHandle: source
+      target: '1778576663591'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: template-transform
+        targetType: llm
+      id: 1778576663591-source-1778576678329-target
+      source: '1778576663591'
+      sourceHandle: source
+      target: '1778576678329'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: template-transform
+        targetType: llm
+      id: 1778576663591-source-1778576791130-target
+      source: '1778576663591'
+      sourceHandle: source
+      target: '1778576791130'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: template-transform
+      id: 1778576791130-source-1778576971959-target
+      source: '1778576791130'
+      sourceHandle: source
+      target: '1778576971959'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: template-transform
+      id: 1778576678329-source-1778576971959-target
+      source: '1778576678329'
+      sourceHandle: source
+      target: '1778576971959'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: template-transform
+        targetType: http-request
+      id: 1778576971959-source-1778577160301-target
+      source: '1778576971959'
+      sourceHandle: source
+      target: '1778577160301'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        config:
+          frequency: daily
+          mode: visual
+          timezone: UTC
+          visual_config:
+            monthly_days:
+            - 1
+            on_minute: 0
+            time: 12:00 AM
+            weekdays:
+            - sun
+        cron_expression: ''
+        frequency: daily
+        mode: visual
+        selected: false
+        title: Schedule Trigger
+        type: trigger-schedule
+        visual_config:
+          monthly_days:
+          - 1
+          on_minute: 0
+          time: 12:00 AM
+          weekdays:
+          - sun
+      height: 130
+      id: '1778575074405'
+      position:
+        x: 28.31816502494553
+        y: 65.91477062811819
+      positionAbsolute:
+        x: 28.31816502494553
+        y: 65.91477062811819
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "import json\n\ndef main(api_response: str) -> dict:\n    # 解析 API 返回的\
+          \ JSON 数据\n    data = json.loads(api_response)\n    orders = data.get(\"\
+          orders\", [])\n    date_str = data.get(\"date\", \"\")\n\n    # 若没有订单，返回空汇总\n\
+          \    if not orders:\n        return {\n            \"date\": date_str,\n\
+          \            \"summary\": {\n                \"total_orders\": 0,\n    \
+          \            \"total_profit\": 0,\n                \"overall_profit_margin\"\
+          : 0,\n                \"platforms\": {}\n            },\n            \"\
+          orders_detail\": [],\n            \"sku_insights\": {}\n        }\n\n  \
+          \  # 初始化\n    platform_stats = {}\n    sku_orders = {}\n    enriched_orders\
+          \ = []\n\n    for order in orders:\n        sale_price = float(order.get(\"\
+          sale_price\", 0))\n        cost_price = float(order.get(\"cost_price\",\
+          \ 0))\n        shipping_fee = float(order.get(\"shipping_fee\", 0))\n  \
+          \      quantity = int(order.get(\"quantity\", 1))\n        platform = order.get(\"\
+          platform\", \"unknown\")\n        sku = order.get(\"sku\", \"unknown\")\n\
+          \n        profit = (sale_price - cost_price - shipping_fee) * quantity\n\
+          \        revenue = sale_price * quantity\n        margin = profit / revenue\
+          \ if revenue != 0 else 0\n\n        if margin > 0:\n            status =\
+          \ \"盈利\"\n        elif margin < 0:\n            status = \"亏损\"\n      \
+          \  else:\n            status = \"持平\"\n\n        enriched = order.copy()\n\
+          \        enriched[\"profit\"] = round(profit, 2)\n        enriched[\"profit_margin\"\
+          ] = round(margin * 100, 2)\n        enriched[\"status\"] = status\n    \
+          \    enriched_orders.append(enriched)\n\n        # 平台汇总\n        if platform\
+          \ not in platform_stats:\n            platform_stats[platform] = {\n   \
+          \             \"total_orders\": 0,\n                \"total_profit\": 0,\n\
+          \                \"total_revenue\": 0\n            }\n        platform_stats[platform][\"\
+          total_orders\"] += 1\n        platform_stats[platform][\"total_profit\"\
+          ] += profit\n        platform_stats[platform][\"total_revenue\"] += revenue\n\
+          \n        # SKU 统计\n        if sku not in sku_orders:\n            sku_orders[sku]\
+          \ = {\"order_count\": 0, \"total_profit\": 0}\n        sku_orders[sku][\"\
+          order_count\"] += 1\n        sku_orders[sku][\"total_profit\"] += profit\n\
+          \n    # 平台平均利润率\n    for p, stats in platform_stats.items():\n        total_rev\
+          \ = stats[\"total_revenue\"]\n        stats[\"avg_profit_margin\"] = round((stats[\"\
+          total_profit\"] / total_rev) * 100, 2) if total_rev != 0 else 0\n      \
+          \  del stats[\"total_revenue\"]\n\n    # SKU 洞察与模拟周转天数\n    total_orders_all\
+          \ = len(orders)\n    avg_ord = total_orders_all / len(sku_orders) if sku_orders\
+          \ else 1\n    sku_insights = {}\n    for sku, s_data in sku_orders.items():\n\
+          \        cnt = s_data[\"order_count\"]\n        activity = cnt / avg_ord\
+          \ if avg_ord > 0 else 1\n        turnover_days = round(30 / (activity +\
+          \ 0.5), 1)\n        sku_insights[sku] = {\n            \"order_count\":\
+          \ cnt,\n            \"total_profit\": round(s_data[\"total_profit\"], 2),\n\
+          \            \"activity_score\": round(activity, 2),\n            \"simulated_turnover_days\"\
+          : turnover_days\n        }\n\n    total_profit = sum(s[\"total_profit\"\
+          ] for s in platform_stats.values())\n    total_revenue = sum(float(o.get(\"\
+          sale_price\",0)) * int(o.get(\"quantity\",1)) for o in orders)\n    overall_margin\
+          \ = (total_profit / total_revenue * 100) if total_revenue != 0 else 0\n\n\
+          \    summary = {\n        \"total_orders\": len(orders),\n        \"total_profit\"\
+          : round(total_profit, 2),\n        \"overall_profit_margin\": round(overall_margin,\
+          \ 2),\n        \"platforms\": platform_stats\n    }\n    \n        # ----\
+          \ 数字净化，消除浮点尾巴 ----\n    summary[\"total_profit\"] = round(summary[\"total_profit\"\
+          ], 2)\n    summary[\"overall_profit_margin\"] = round(summary[\"overall_profit_margin\"\
+          ], 2)\n    for p in summary[\"platforms\"]:\n        summary[\"platforms\"\
+          ][p][\"total_profit\"] = round(summary[\"platforms\"][p][\"total_profit\"\
+          ], 2)\n        summary[\"platforms\"][p][\"avg_profit_margin\"] = round(summary[\"\
+          platforms\"][p][\"avg_profit_margin\"], 2)\n    for o in enriched_orders:\n\
+          \        o[\"profit\"] = round(o[\"profit\"], 2)\n        o[\"profit_margin\"\
+          ] = round(o[\"profit_margin\"], 2)\n    for s in sku_insights:\n       \
+          \ sku_insights[s][\"total_profit\"] = round(sku_insights[s][\"total_profit\"\
+          ], 2)\n    # ---------------------------------\n\n    return {\n       \
+          \ \"calculated_data\":{\n            \"date\": date_str,\n            \"\
+          summary\": summary,\n            \"orders_detail\": enriched_orders,\n \
+          \           \"sku_insights\": sku_insights\n        }\n    }\n    "
+        code_language: python3
+        outputs:
+          calculated_data:
+            children: null
+            type: object
+        selected: false
+        title: 处理api响应
+        type: code
+        variables:
+        - value_selector:
+          - '1778575388691'
+          - body
+          value_type: string
+          variable: api_response
+      height: 52
+      id: '1778575204284'
+      position:
+        x: 28.31816502494553
+        y: 435.5113762312909
+      positionAbsolute:
+        x: 28.31816502494553
+        y: 435.5113762312909
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "from datetime import date, timedelta\n\ndef main() -> dict:\n    yesterday\
+          \ = date.today() - timedelta(days=1)\n    return {\n        \"yesterday_date\"\
+          : yesterday.strftime(\"%Y-%m-%d\")\n    }"
+        code_language: python3
+        outputs:
+          yesterday_date:
+            children: null
+            type: string
+        selected: false
+        title: 计算昨日日期
+        type: code
+        variables: []
+      height: 52
+      id: '1778575348042'
+      position:
+        x: 28.31816502494553
+        y: 208
+      positionAbsolute:
+        x: 28.31816502494553
+        y: 208
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        headers: ''
+        method: get
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: false
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: HTTP Request
+        type: http-request
+        url: http://host.docker.internal:8000/api/daily_data?date={{#1778575348042.yesterday_date#}}
+        variables: []
+      height: 156
+      id: '1778575388691'
+      position:
+        x: 28.31816502494553
+        y: 268.9147706281182
+      positionAbsolute:
+        x: 28.31816502494553
+        y: 268.9147706281182
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        selected: false
+        template: '{{ arg1 }}'
+        title: Template
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1778575204284'
+          - calculated_data
+          value_type: object
+          variable: arg1
+      height: 52
+      id: '1778576663591'
+      position:
+        x: 28.31816502494553
+        y: 501.76706434693637
+      positionAbsolute:
+        x: 28.31816502494553
+        y: 501.76706434693637
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1778576663591'
+          - output
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: qwen3.6-plus
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: 40d34ebc-66d7-46b9-9aa1-11adf7bd9ac6
+          role: system
+          text: "你是一位资深跨境电商经营分析师。你会收到一份 JSON 格式的当日经营数据：{{#1778576663591.output#}}（包含日期、总结、订单明细、SKU洞察）。请基于这些数据生成一份“老板晨报”。\n\
+            \n必须严格遵守以下要求：\n1. 使用纯文本，不要使用 Markdown 格式。段落清晰，语言简练，适合老板快速阅读。\n2. 结构固定如下：\n\
+            \   - 【总体概况】：一句话总结今日总利润、总订单数、综合利润率。\n   - 【平台表现】：列出每个平台的订单数、利润、利润率。明确指明表现最好和最差的平台。\n\
+            \   - 【异常预警】：指出利润率最低的3笔订单（格式：订单ID、SKU、利润率），以及哪些平台整体亏损（如果无则说“无”）。\n   -\
+            \ 【结论】：用一句话总结今日经营状况，给出明确结论（如“经营良好，建议关注XX平台亏损”或“需立即干预”）。\n3. 金额保留两位小数，利润率使用百分比，加粗关键数字（可使用文本加粗如**$1,234.56**）。\n\
+            4. 不要编造数据，只使用提供的信息。如果数据为0或无，就如实说明。\n5. 不要输出任何解释、开场白、结束语，只输出晨报内容。"
+        selected: false
+        title: 老板晨报LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1778576678329'
+      position:
+        x: 339
+        y: 73
+      positionAbsolute:
+        x: 339
+        y: 73
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1778576663591'
+          - output
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: qwen3.6-plus
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: 3ff3b6fd-5c6c-43fb-ab9e-e8f58ea3c53f
+          role: system
+          text: "你是一位跨境电商库存管理专家。你会收到一份 JSON，其中包含 SKU 级别的洞察数据{{#1778576663591.output#}}（每个\
+            \ SKU 的订单数、利润、活跃度得分、模拟周转天数）以及各平台表现。请根据这些数据生成一份补货建议。\n\n必须严格遵守以下要求：\n1.\
+            \ 输出使用 Markdown 格式，包含一个表格和一个总结段落。\n2. 表格必须包含以下列：SKU、今日订单数、模拟周转天数、总利润、补货优先级、建议补货量（件）。\n\
+            3. 补货优先级判断逻辑（必须严格执行）：\n   - 模拟周转天数 < 20 且总利润 > 10 → 高\n   - 模拟周转天数 20~35\
+            \ → 中\n   - 模拟周转天数 > 35 或总利润 ≤ 0 → 低\n4. 建议补货量：高优先级 = 订单数 * 30，中优先级 =\
+            \ 订单数 * 15，低优先级 = 订单数 * 5（取整）。\n5. 表格下方写一段“总结建议”，用一句话指出应重点关注哪些 SKU（如“SKU1001\
+            \ 周转快利润高，建议优先补货并保持库存深度”）。\n6. 不要编造数据，只使用提供的信息。若某 SKU 数据不明显，按规则处理即可。\n\
+            7. 输出不要包含任何多余的前缀或解释，直接以 Markdown 表格开头。"
+        selected: false
+        title: 补货建议LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1778576791130'
+      position:
+        x: 339
+        y: 200
+      positionAbsolute:
+        x: 339
+        y: 200
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        selected: false
+        template: '📊 跨境经营日报 - {{ calculated_data.date }}
+
+
+          ━━━━━━━━━━━━━━━━
+
+          🧭 晨报
+
+          {{ morning_report }}
+
+
+          ━━━━━━━━━━━━━━━━
+
+          📦 平台利润汇总
+
+          {% for platform, stats in calculated_data.summary.platforms.items() %}
+
+          · {{ platform }}：订单{{ stats.total_orders }}单 | 利润${{ stats.total_profit
+          }} | 利润率{{ stats.avg_profit_margin }}%
+
+          {% endfor %}
+
+
+          ━━━━━━━━━━━━━━━━
+
+          🛒 补货建议（SKU级别）
+
+          {{ replenishment_advice }}
+
+
+          ━━━━━━━━━━━━━━━━
+
+          ⚠️ 异常订单明细（利润率最低的5条）
+
+          {% set sorted_orders = calculated_data.orders_detail | sort(attribute=''profit_margin'')
+          %}
+
+          {% for order in sorted_orders[:5] %}
+
+          · {{ order.order_id }} | {{ order.sku }} | {{ order.profit_margin }}%
+
+          {% endfor %}
+
+
+          ---
+
+          *本报告由 Cross-Border AI Analyst 自动生成*'
+        title: Template 2
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1778576678329'
+          - text
+          value_type: string
+          variable: morning_report
+        - value_selector:
+          - '1778576791130'
+          - text
+          value_type: string
+          variable: replenishment_advice
+        - value_selector:
+          - '1778575204284'
+          - calculated_data
+          value_type: object
+          variable: calculated_data
+      height: 52
+      id: '1778576971959'
+      position:
+        x: 339
+        y: 318.5123845465006
+      positionAbsolute:
+        x: 339
+        y: 318.5123845465006
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: key-value-780
+            key: ''
+            type: text
+            value: "{\n  \"msg_type\": \"text\",\n  \"content\": {\n    \"text\":\
+              \ “{{#1778576971959.output#}}\"\n  }\n}"
+          type: json
+        headers: Content-Type:application/json
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: 推送到飞书
+        type: http-request
+        url: https://open.larksuite.com/open-apis/bot/v2/hook/a35c556b-569d-4390-aac9-07433a54808d
+        variables: []
+      height: 169
+      id: '1778577160301'
+      position:
+        x: 339
+        y: 383.62614685940906
+      positionAbsolute:
+        x: 339
+        y: 383.62614685940906
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: 197.69220455680397
+      y: 59.502244779650425
+      zoom: 0.9214641861987033
+  rag_pipeline_variables: []
